@@ -6,6 +6,7 @@ INCLUDE= -I include
 CFLAGS+=$(INCLUDE)
 SOURCES=$(wildcard $(SOURCE_DIR)/*.cpp)
 OBJECTS=$(patsubst $(SOURCE_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
+HEADERS=$(wildcard $(INCLUDE)/*.h);
 EXEC_NAME := star_wars.exe
 
 

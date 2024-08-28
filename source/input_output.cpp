@@ -7,8 +7,11 @@
 #include "input_output.h"
 #include "matrix_operations.h"
 
-void print(struct Matrix *matrix){
+Matrix_errors matrix_print(struct Matrix *matrix){
     assert (matrix != NULL);
+    if (matrix == NULL){
+        return ERROR_OF_PRINTING_MATRIX;
+    }
     for (size_t i = 0; i < matrix->num_of_rows; i++){
         size_t num_of_cols = (matrix->table[i]).num_of_cols;
         for (size_t j = 0; j < num_of_cols; j++){
@@ -16,6 +19,7 @@ void print(struct Matrix *matrix){
         }
         printf("\n");
     }
+    return NO_ERRORS;
 }
 static int comparison(double a, double b){
     double eps = 1e-6;
@@ -28,60 +32,76 @@ static int comparison(double a, double b){
     }
 }
 
-void get_number_rows(FILE *fp, struct Matrix *matrix){
-    assert(fp != NULL);
-    assert(matrix != NULL);
+Matrix_errors get_number_rows_from_file(FILE *fp, struct Matrix *matrix){
+    //assert(fp != NULL);
+    //assert(matrix != NULL);
+    if (fp == NULL || matrix == NULL){
+        return ERROR_OF_READING_FROM_FILE;
+    }
     int nlines = 0;
-    int c = 0;
-    while ((c = getc(fp)) != EOF){
-        if (c == '\n'){
+    int symbol = 0;
+    while ((symbol = getc(fp)) != EOF){
+        if (symbol == '\n'){
             nlines++;
         }
     }
     matrix->num_of_rows = nlines;
     rewind(fp);
+    return NO_ERRORS;
 }
 
-void get_number_cols(FILE *fp, struct Matrix *matrix){
-    assert(fp != NULL);
-    assert(matrix != NULL);
+Matrix_errors get_number_cols_from_file(FILE *fp, struct Matrix *matrix){
+    //assert(fp != NULL);
+    //assert(matrix != NULL);
+    if (fp == NULL || matrix == NULL){
+        return ERROR_OF_READING_FROM_FILE;
+    }
     int ncols = 0;
     size_t i = 0;
-    int c = 0;
-    while ((c = getc(fp)) != EOF){
+    int symbol = 0;
+    while ((symbol = getc(fp)) != EOF){
         if (i == matrix->num_of_rows){
             break;
         }
-        if (c == '\n'){
-            (matrix->table[i]).num_of_cols = ncols;
+        if (symbol == '\n'){
+            (matrix->table[i]).num_of_cols = ncols + 1;
             ncols = 0;
             i++;
         }
-        if (isspace(c) && c != '\n'){
+
+        if (isspace(symbol) && symbol != '\n'){
             ncols++;
         }
     }
     rewind(fp);
+    return NO_ERRORS;
 }
 
-void get_values(FILE *fp, struct Matrix *matrix){
-    assert(fp != NULL);
-    assert(matrix != NULL);
+Matrix_errors get_values_from_file(FILE *fp, struct Matrix *matrix){
+    //assert(fp != NULL);
+    //assert(matrix != NULL);
+    if (fp == NULL || matrix == NULL){
+        return ERROR_OF_READING_FROM_FILE;
+    }
     for (size_t i = 0; i < matrix->num_of_rows; i++){
         for (size_t j = 0; j < (matrix->table[i]).num_of_cols; j++){
             fscanf(fp, "%d", &(((matrix->table[i]).array)[j]));
         }
     }
+    return NO_ERRORS;
 }
 
-/*void print_triangle_table(struct Matrix *matrix){
-    assert(matrix != NULL);
-    int cnt_of_elements = (matrix->num_of_lines) * (matrix->num_of_cols);
+Matrix_errors print_triangle_table(struct Matrix *matrix){
+    //assert(matrix != NULL);
+    if (matrix == NULL){
+        return ERROR_OF_PRINTING_MATRIX;
+    }
+    int cnt_of_elements = (matrix->num_of_rows) * ((matrix->table[0]).num_of_cols);
     int *elements = (int *)calloc(cnt_of_elements, sizeof(int));
     int k = 0;
-    for (size_t i = 0; i < matrix->num_of_lines; i++){
-        for (size_t j = 0; j < matrix->num_of_cols; j++){
-            elements[k++] = (matrix->table)[i][j];
+    for (size_t i = 0; i < matrix->num_of_rows; i++){
+        for (size_t j = 0; j < (matrix->table[i]).num_of_cols; j++){
+            elements[k++] = ((matrix->table[i]).array)[j];
         }
     }
 
@@ -101,6 +121,7 @@ void get_values(FILE *fp, struct Matrix *matrix){
             printf("%d ", elements[i * (i - 1) / 2 + j]);
         }
     }
-}*/
+    return NO_ERRORS;
+}
 
 
