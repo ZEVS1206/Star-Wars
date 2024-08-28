@@ -7,18 +7,11 @@
 #include "input_output.h"
 #include "matrix_operations.h"
 
-// он должен выводить матрицу красиво
-/*
-1 2 3
-2 3 4
-3 4 5
-*/
-void Print(struct matrix *Matrix){
-    assert (Matrix != NULL);
-    for (size_t i = 0; i < Matrix->num_of_lines; i++){
-        for (size_t j = 0; j < Matrix->num_of_cols; j++){
-            printf("data[%d][%d] = %d\n", i, j,
-                                        (Matrix->table)[i][j]);
+void print(struct Matrix *matrix){
+    assert (matrix != NULL);
+    for (size_t i = 0; i < matrix->num_of_lines; i++){
+        for (size_t j = 0; j < matrix->num_of_cols; j++){
+            printf("%2d ", (matrix->table)[i][j]);
         }
         printf("\n");
     }
@@ -34,9 +27,9 @@ static int comparison(double a, double b){
     }
 }
 
-void get_sizes(FILE *fp, struct matrix *Matrix){
+void get_sizes(FILE *fp, struct Matrix *matrix){
     assert(fp != NULL);
-    assert(Matrix != NULL);
+    assert(matrix != NULL);
     int c = 0;
     bool flag = false;
     int nlines = 0;
@@ -51,29 +44,29 @@ void get_sizes(FILE *fp, struct matrix *Matrix){
         }
     }
     ncols++;
-    Matrix->num_of_lines = nlines;
-    Matrix->num_of_cols = ncols;
+    matrix->num_of_lines = nlines;
+    matrix->num_of_cols = ncols;
     rewind(fp);
 }
 
-void get_values(FILE *fp, struct matrix *Matrix){
+void get_values(FILE *fp, struct Matrix *matrix){
     assert(fp != NULL);
-    assert(Matrix != NULL);
-    for (size_t i = 0; i < Matrix->num_of_lines; i++){
-        for (size_t j = 0; j < Matrix->num_of_cols; j++){
-            fscanf(fp, "%d", &((Matrix->table)[i][j]));
+    assert(matrix != NULL);
+    for (size_t i = 0; i < matrix->num_of_lines; i++){
+        for (size_t j = 0; j < matrix->num_of_cols; j++){
+            fscanf(fp, "%d", &((matrix->table)[i][j]));
         }
     }
 }
 
-void Print_Triangle_table(struct matrix *Matrix){
-    assert(Matrix != NULL);
-    int cnt_of_elements = (Matrix->num_of_lines) * (Matrix->num_of_cols);
+void print_triangle_table(struct Matrix *matrix){
+    assert(matrix != NULL);
+    int cnt_of_elements = (matrix->num_of_lines) * (matrix->num_of_cols);
     int *elements = (int *)calloc(cnt_of_elements, sizeof(int));
     int k = 0;
-    for (size_t i = 0; i < Matrix->num_of_lines; i++){
-        for (size_t j = 0; j < Matrix->num_of_cols; j++){
-            elements[k++] = (Matrix->table)[i][j];
+    for (size_t i = 0; i < matrix->num_of_lines; i++){
+        for (size_t j = 0; j < matrix->num_of_cols; j++){
+            elements[k++] = (matrix->table)[i][j];
         }
     }
 

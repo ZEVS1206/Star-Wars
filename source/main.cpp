@@ -8,11 +8,15 @@
 
 int main(){
     FILE *fp = fopen("source//Matrix.txt", "r");
-    // FIXME: проверка??? if (fp == NULL) { ошибка, return}
-    struct matrix Matrix = {0};
-    /*MatrixError error = */Create_matrix(fp, &Matrix); // ошибка???
-    //Print_Triangle_table(&Matrix);
-    Print(&Matrix);
+    if (fp == NULL){
+        return -1;
+    }
+    struct Matrix matrix = {0};
+    Matrix_errors error = create_matrix(fp, &matrix);
+    if (error != NO_ERRORS){
+        return -1;
+    }
+    print(&matrix);
     return 0;
 }
 
