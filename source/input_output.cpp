@@ -9,9 +9,10 @@
 
 void print(struct Matrix *matrix){
     assert (matrix != NULL);
-    for (size_t i = 0; i < matrix->num_of_lines; i++){
-        for (size_t j = 0; j < matrix->num_of_cols; j++){
-            printf("%2d ", (matrix->table)[i][j]);
+    for (size_t i = 0; i < matrix->num_of_rows; i++){
+        size_t num_of_cols = (matrix->table[i]).num_of_cols;
+        for (size_t j = 0; j < num_of_cols; j++){
+            printf("%2d ", ((matrix->table[i]).array)[j]);
         }
         printf("\n");
     }
@@ -27,39 +28,53 @@ static int comparison(double a, double b){
     }
 }
 
-void get_sizes(FILE *fp, struct Matrix *matrix){
+void get_number_rows(FILE *fp, struct Matrix *matrix){
     assert(fp != NULL);
     assert(matrix != NULL);
-    int c = 0;
-    bool flag = false;
     int nlines = 0;
-    int ncols = 0;
+    int c = 0;
     while ((c = getc(fp)) != EOF){
         if (c == '\n'){
             nlines++;
-            flag = true;
         }
-        if (!flag && isspace(c)){
+    }
+    matrix->num_of_rows = nlines;
+    rewind(fp);
+}
+
+void get_number_cols(FILE *fp, struct Matrix *matrix){
+    assert(fp != NULL);
+    assert(matrix != NULL);
+    int ncols = 0;
+    size_t i = 0;
+    int c = 0;
+    while ((c = getc(fp)) != EOF){
+        if (i == matrix->num_of_rows){
+            break;
+        }
+        if (c == '\n'){
+            (matrix->table[i]).num_of_cols = ncols;
+            ncols = 0;
+            i++;
+        }
+        if (isspace(c) && c != '\n'){
             ncols++;
         }
     }
-    ncols++;
-    matrix->num_of_lines = nlines;
-    matrix->num_of_cols = ncols;
     rewind(fp);
 }
 
 void get_values(FILE *fp, struct Matrix *matrix){
     assert(fp != NULL);
     assert(matrix != NULL);
-    for (size_t i = 0; i < matrix->num_of_lines; i++){
-        for (size_t j = 0; j < matrix->num_of_cols; j++){
-            fscanf(fp, "%d", &((matrix->table)[i][j]));
+    for (size_t i = 0; i < matrix->num_of_rows; i++){
+        for (size_t j = 0; j < (matrix->table[i]).num_of_cols; j++){
+            fscanf(fp, "%d", &(((matrix->table[i]).array)[j]));
         }
     }
 }
 
-void print_triangle_table(struct Matrix *matrix){
+/*void print_triangle_table(struct Matrix *matrix){
     assert(matrix != NULL);
     int cnt_of_elements = (matrix->num_of_lines) * (matrix->num_of_cols);
     int *elements = (int *)calloc(cnt_of_elements, sizeof(int));
@@ -86,6 +101,6 @@ void print_triangle_table(struct Matrix *matrix){
             printf("%d ", elements[i * (i - 1) / 2 + j]);
         }
     }
-}
+}*/
 
 

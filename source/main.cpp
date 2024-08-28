@@ -12,11 +12,13 @@ int main(){
         return -1;
     }
     struct Matrix matrix = {0};
-    Matrix_errors error = create_matrix(fp, &matrix);
+    Matrix_errors error = create_matrix_from_file(fp, &matrix);
+    //Matrix_errors error = create_matrix_from_console(&matrix);
     if (error != NO_ERRORS){
         return -1;
     }
     print(&matrix);
+    //free_matrix(&matrix);
     return 0;
 }
 
