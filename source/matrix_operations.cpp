@@ -73,14 +73,16 @@ Matrix_errors matrix_free(struct Matrix *matrix){
     return NO_ERRORS;
 }
 
-
+//              ask user for sizes + create_matrix
 Matrix_errors create_an_empty_matrix(struct Matrix *matrix){
     if (matrix == NULL){
         return ERROR_OF_CREATING_MATRIX;
     }
-    size_t num_of_rows = 0;
+
     printf("Enter the quantity of rows: ");
-    scanf("%d", &num_of_rows);
+    size_t num_of_rows = 0;
+    scanf("%d", &num_of_rows); // FIXME: wrong specifier
+    matrix->num_of_rows = num_of_rows;
     size_t* lens = (size_t*)calloc(num_of_rows, sizeof(size_t));
     matrix->table = (Row*)calloc(num_of_rows, sizeof(Row));
     if (lens == 0){
@@ -88,7 +90,7 @@ Matrix_errors create_an_empty_matrix(struct Matrix *matrix){
     }
     printf("Enter the lens of rows:\n");
     for (size_t i = 0; i < num_of_rows; i++){
-        scanf("%d", &lens[i]);
+        scanf("%d", &lens[i]); // FIXME: wrong specifier
     }
     Matrix_errors error = matrix_create(matrix, num_of_rows, lens);
     if (error != NO_ERRORS){

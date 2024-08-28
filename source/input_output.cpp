@@ -12,6 +12,7 @@ Matrix_errors matrix_print(struct Matrix *matrix){
     if (matrix == NULL){
         return ERROR_OF_PRINTING_MATRIX;
     }
+    printf("%lu\n", matrix->num_of_rows);
     for (size_t i = 0; i < matrix->num_of_rows; i++){
         size_t num_of_cols = (matrix->table[i]).num_of_cols;
         for (size_t j = 0; j < num_of_cols; j++){
