@@ -7,12 +7,12 @@
 #include "input_output.h"
 #include "matrix_operations.h"
 
+
 Matrix_errors matrix_print(struct Matrix *matrix){
     assert (matrix != NULL);
     if (matrix == NULL){
         return ERROR_OF_PRINTING_MATRIX;
     }
-    printf("%lu\n", matrix->num_of_rows);
     for (size_t i = 0; i < matrix->num_of_rows; i++){
         size_t num_of_cols = (matrix->table[i]).num_of_cols;
         for (size_t j = 0; j < num_of_cols; j++){
@@ -34,8 +34,8 @@ static int comparison(double a, double b){
 }
 
 Matrix_errors get_number_rows_from_file(FILE *fp, struct Matrix *matrix){
-    //assert(fp != NULL);
-    //assert(matrix != NULL);
+    assert(fp != NULL);
+    assert(matrix != NULL);
     if (fp == NULL || matrix == NULL){
         return ERROR_OF_READING_FROM_FILE;
     }
@@ -52,8 +52,8 @@ Matrix_errors get_number_rows_from_file(FILE *fp, struct Matrix *matrix){
 }
 
 Matrix_errors get_number_cols_from_file(FILE *fp, struct Matrix *matrix){
-    //assert(fp != NULL);
-    //assert(matrix != NULL);
+    assert(fp != NULL);
+    assert(matrix != NULL);
     if (fp == NULL || matrix == NULL){
         return ERROR_OF_READING_FROM_FILE;
     }
@@ -79,8 +79,8 @@ Matrix_errors get_number_cols_from_file(FILE *fp, struct Matrix *matrix){
 }
 
 Matrix_errors get_values_from_file(FILE *fp, struct Matrix *matrix){
-    //assert(fp != NULL);
-    //assert(matrix != NULL);
+    assert(fp != NULL);
+    assert(matrix != NULL);
     if (fp == NULL || matrix == NULL){
         return ERROR_OF_READING_FROM_FILE;
     }
@@ -93,7 +93,7 @@ Matrix_errors get_values_from_file(FILE *fp, struct Matrix *matrix){
 }
 
 Matrix_errors print_triangle_table(struct Matrix *matrix){
-    //assert(matrix != NULL);
+    assert(matrix != NULL);
     if (matrix == NULL){
         return ERROR_OF_PRINTING_MATRIX;
     }

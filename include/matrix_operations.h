@@ -31,6 +31,7 @@ Matrix_errors matrix_create_from_console(struct Matrix *matrix);
 Matrix_errors matrix_create_from_file(FILE *fp, struct Matrix *matrix);
 Matrix_errors matrix_create(struct Matrix *matrix, size_t num_of_rows, size_t *lens);
 Matrix_errors create_an_empty_matrix(struct Matrix *matrix);
+Matrix_errors ask_user_for_sizes(size_t *num_of_rows,  size_t *lens);
 Matrix_errors matrix_add(struct Matrix *matrix1,
                          struct Matrix *matrix2,
                          struct Matrix *result_matrix);
